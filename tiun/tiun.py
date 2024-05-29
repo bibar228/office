@@ -6,8 +6,8 @@ months = {"01": "января", "02": "февраля", "03": "марта", "04"
               "07": "июля", "08": "августа", "09": "сентября", "10": "октября", "11": "ноября", "12": "декабря"}
 
 
-def create_files():
-    wookbook = openpyxl.load_workbook("Список заявок СК Репка.xlsx")
+def create_files(file_name_exel, file_name_word):
+    wookbook = openpyxl.load_workbook(file_name_exel)
     ws = wookbook.active
 
     for row in range(2, ws.max_row):
@@ -26,7 +26,7 @@ def create_files():
         print("Номинальный ток", ws.cell(row, 15).value)
         print("Заводской номер", ws.cell(row, 16).value)
         print("ДАТА1", f"{strftime('%d %m %Y', gmtime()).split()[0]} {months[strftime('%d %m %Y', gmtime()).split()[1]]} {strftime('%d %m %Y', gmtime()).split()[2]}")
-        doc = DocxTemplate("1.docx")
+        doc = DocxTemplate(file_name_word)
         context = {'ФИО1': ws.cell(row, 3).value,
                    'ФИО3': ws.cell(row, 2).value,
                    "ФИО2": f"{ws.cell(row, 2).value.split()[0]} {ws.cell(row, 2).value.split()[1][0]}. {ws.cell(row, 2).value.split()[2][0]}.",
