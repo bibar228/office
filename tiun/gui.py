@@ -3,56 +3,82 @@ from tkinter import ttk
 import tkinter as tk
 from tiun import create_files
 from tkinter import filedialog
+import os
 
 root = Tk()
 
 root.title("РегионЭнергоСеть")
-root.geometry("300x400")
-canvas1 = tk.Canvas(root, width=500, height=400)
-canvas1.pack()
+root.geometry("600x400")
+# canvas1 = tk.Canvas(root, width=500, height=400)
+# canvas1.pack()
+
 
 def bb():
     tf = filedialog.askopenfilename(
-        initialdir="C:/",  # insert your own path
+        initialdir=os.getcwd(),  # insert your own path
         title="Open Text file"
     )
-    button_exel['text'] = f'Загружено: \n{tf.split("/")[-1]}'
+
+    if len(tf.split("/")[-1].split('.')[-1]) > 0:
+        if tf.split("/")[-1].split('.')[-1] not in ('xlsx'):
+            button_exel['text'] = "Ошибка: Файл должен быть формата Exel"
+            button_exel.configure(background="brown")
+        else:
+            button_exel['text'] = f'Загружено: \n{tf.split("/")[-1]}'
+            button_exel.configure(background="green")
+
     print(tf.split("/")[-1])
+    print(tf.split("/")[-1].split('.')[-1])
 
 def gg():
     tf = filedialog.askopenfilename(
-        initialdir="C:/",  # insert your own path
+        initialdir=os.getcwd(),
         title="Open Text file"
     )
-    button_word['text'] = f'Загружено: \n{tf.split("/")[-1]}'
+
+    if len(tf.split("/")[-1].split('.')[-1]) > 0:
+        if tf.split("/")[-1].split('.')[-1] not in ("doc", "docx"):
+            button_word['text'] = "Ошибка: Файл должен быть формата Word"
+            button_word.configure(background="brown")
+        else:
+            button_word['text'] = f'Загружено: \n{tf.split("/")[-1]}'
+            button_word.configure(background="green")
+
     print(tf.split("/")[-1])
+    print(tf.split("/")[-1].split('.')[-1])
 
-button_exel = tk.Button(text='Файл ексель', command=bb, bg='brown', fg='white')
-canvas1.create_window(150, 150, window=button_exel)
-button_exel.place(relx=0.5, rely=0.5, anchor=CENTER)
+def main():
+    if button_exel.cget("bg") == button_word.cget("bg") == "green":
 
-button_word = tk.Button(text='Файл ворд', command=gg, bg='brown', fg='white')
-canvas1.create_window(150, 150, window=button_exel)
-button_word.place(relx=0.5, rely=0.5, anchor=CENTER)
+        try:
+            button_main.configure(background="green")
+            create_files(button_exel['text'].split(":")[1][2:], button_word['text'].split(":")[1][2:])
+            label.configure(text="Файлы созданы")
+        except Exception as e:
+            button_main.configure(background="brown")
+            label.configure(text=f"Ошибка при создании файлов:\n{e}")
+
+    else:
+        button_main['text'] = f'Ошибка загружаемых файлов'
+        button_main.configure(background="brown")
+
+label = Label(root, text="", font=("Arial Bold", 12), height=150)
+label.pack()
+
+button_exel = tk.Button(text='Файл ексель', command=bb, bg='grey', fg='white')
+#root.create_window(150, 150, window=button_exel)
+button_exel.place(relx=0.5, rely=0.1, anchor=CENTER)
+
+button_word = tk.Button(text='Файл ворд', command=gg, bg='grey', fg='white')
+#root.create_window(150, 150, window=button_word)
+button_word.place(relx=0.5, rely=0.2, anchor=CENTER)
+
+button_main = tk.Button(text='Начать создание файлов', command=main, bg='grey', fg='white')
+#root.create_window(150, 150, window=button_main)
+button_main.place(relx=0.5, rely=0.4, anchor=CENTER)
+
+
 
 root.mainloop()
 
-# entry = ttk.Entry()
-# entry.pack(anchor=NW, padx=6, pady=6)
-#
-# btn_word = ttk.Button(text="Название файла ворд", command=show_message)
-# btn_word.pack(anchor=NW, padx=6, pady=6)
-#
-# label = ttk.Label()
-# label.pack(anchor=NW, padx=6, pady=6)
 
-root.mainloop()
-
-
-
-# tf = filedialog.askopenfilename(
-#     initialdir="C:/",  # insert your own path
-#     title="Open Text file"
-# )
-#
-# print(tf.split("/")[-1])
