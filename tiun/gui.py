@@ -9,8 +9,6 @@ root = Tk()
 
 root.title("РегионЭнергоСеть")
 root.geometry("600x400")
-# canvas1 = tk.Canvas(root, width=500, height=400)
-# canvas1.pack()
 
 
 def bb():
@@ -27,9 +25,6 @@ def bb():
             button_exel['text'] = f'Загружено: \n{tf.split("/")[-1]}'
             button_exel.configure(background="green")
 
-    print(tf.split("/")[-1])
-    print(tf.split("/")[-1].split('.')[-1])
-
 def gg():
     tf = filedialog.askopenfilename(
         initialdir=os.getcwd(),
@@ -43,9 +38,6 @@ def gg():
         else:
             button_word['text'] = f'Загружено: \n{tf.split("/")[-1]}'
             button_word.configure(background="green")
-
-    print(tf.split("/")[-1])
-    print(tf.split("/")[-1].split('.')[-1])
 
 def main():
     if button_exel.cget("bg") == button_word.cget("bg") == "green":
@@ -66,18 +58,13 @@ label = Label(root, text="", font=("Arial Bold", 12), height=150)
 label.pack()
 
 button_exel = tk.Button(text='Файл ексель', command=bb, bg='grey', fg='white')
-#root.create_window(150, 150, window=button_exel)
 button_exel.place(relx=0.5, rely=0.1, anchor=CENTER)
 
 button_word = tk.Button(text='Файл ворд', command=gg, bg='grey', fg='white')
-#root.create_window(150, 150, window=button_word)
 button_word.place(relx=0.5, rely=0.2, anchor=CENTER)
 
 button_main = tk.Button(text='Начать создание файлов', command=main, bg='grey', fg='white')
-#root.create_window(150, 150, window=button_main)
 button_main.place(relx=0.5, rely=0.4, anchor=CENTER)
-
-
 
 root.mainloop()
 
